@@ -1,0 +1,25 @@
+# 5. pod의 재시작 정책 설정
+#    - default는 always
+#       지금처럼 restartPolicy를 선언하지 않으면 된다.
+#    - 이러한 선언적인 spec가 잘 모르겠다면,
+#        kubectl explain pod
+#        kubectl explain pod.spec
+#        검색결과에서 선언하려고하는 spec을 찾으면 된다.
+# 6. spec 을 쉽게 확인하는 방법
+#    - kubectl explain pod
+#       조회된 내용중에서 fields 항목에서 원하는 spec을 찾는다.
+#    - kubectl explain pod.spec
+#       조회된 내용중에서 restartPolicy filed를 찾는다.
+#       사용가능한 값이 Always, Never, OnFailure 확인.
+#       상세한 내용을 확인할 수 있는 웹페이지 url도 있음.
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-simple-pod
+spec:
+  #restartPolicy:
+  containers:
+    - name: my-container
+      image: nginx:1.24

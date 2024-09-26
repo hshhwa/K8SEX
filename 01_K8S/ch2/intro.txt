@@ -1,0 +1,7 @@
+ 1. K8S 에서의 통신
+    - pod 내에서 컨테이너 간 통신
+    - 서로 다른 pod에 있는 컨테이너 간 통신
+    - Service를 이용한 애플리케이션(spring boot) 간 통신
+    - 서비스( clusterIP, ExternalName ) 객체
+      서비스명으로 통신이 가능해짐
+      => Ingress 설치

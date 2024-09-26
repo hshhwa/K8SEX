@@ -1,0 +1,12 @@
+server:
+  #port: 5000
+  port: 8761 # 사용 가능한 port 를 random 하게 설정.
+spring:
+  application:
+    name: eureka-server
+  cloud:
+    config:
+      uri: http://config-server:8080
+    loadbalancer:
+      ribbon:
+        enabled: false

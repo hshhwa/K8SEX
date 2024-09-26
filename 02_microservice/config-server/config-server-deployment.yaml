@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-server
+  namespace: kuku
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - name: config-server
+          image: hongseonghwa/kuku-config-server:0.2.2  # 올바른 이미지 이름으로 교체
+          ports:
+            - containerPort: 8080  # Config Server의 포트
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: native

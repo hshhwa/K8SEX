@@ -8,24 +8,21 @@ logging:
     rolling policy:
       max-file-size: 500MB
       max-history: 10
-
+#
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/./test
-    username: sa
-    password: sa
-    #url: jdbc:h2:tcp://172.19.0.2:1521/test
-    #username: sa
-    #password: sa
+    url: jdbc:mysql://mysql-service:3306/item  # MySQL 서비스 주소 및 데이터베이스 이름
+    username: root  # MySQL 사용자 이름
+    password: 1234  # MySQL 비밀번호
+    driver-class-name: com.mysql.cj.jdbc.Driver  # 드라이버 클래스 추가
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: create
-    show-sql: true
+      ddl-auto: create  # 데이터베이스 스키마 자동 업데이트 설정
+    show-sql: true  # SQL 쿼리 로그 출력
     properties:
       hibernate:
-        format_sql: true
+        format_sql: true  # 포맷된 SQL 출력
 
 # Eureka Server 에 자기자신(item-service)을 등록
 eureka:
@@ -41,4 +38,4 @@ eureka:
     fetch-register: true
     # service-url 은 유레카 서버의 url 정보임.
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka

@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.3'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.google.cloud.tools.jib' version '3.4.0' // Jib 플러그인 추가
 }
 
 group = 'org.msa'
@@ -34,6 +35,8 @@ dependencies {
     // 2-3 JPA 적용
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
     //implementation 'com.h2database:h2'
 
     //2-4 유효성 체크
@@ -50,6 +53,8 @@ dependencies {
     // bootstrap.yaml 을 사용하기 위한 의존관계 설정
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -61,4 +66,19 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// jib 설정.
+jib {
+    // base image 설정
+    from {
+        image = "openjdk:17"
+    }
+    to {
+        image = "hongseonghwa/kuku-item-service"
+        tags = ['latest', '0.0.9']
+    }
+    container{
+        creationTime = "USE_CURRENT_TIMESTAMP"
+    }
 }

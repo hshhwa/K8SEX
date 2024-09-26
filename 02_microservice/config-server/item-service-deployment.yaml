@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: item-service
+  namespace: kuku
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: item-service
+  template:
+    metadata:
+      labels:
+        app: item-service
+    spec:
+      containers:
+        - name: item-service
+          image: hongseonghwa/kuku-item-service:0.0.9
+          ports:
+            - containerPort: 5000  # Item Service의 포트
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker

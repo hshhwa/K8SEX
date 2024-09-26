@@ -1,0 +1,36 @@
+## 레플리카셋 테스트
+
+# ReplicaSet
+#   - Pod 의 복제본을 생성하고 관리할 수 있는 객체
+#   - Pod 의 수량을 관리해주는 기능이다.
+#     어떤 pod를 몇개나 생성해줄 것인가를 정하는 것이 전부이다.
+#   - Pod의 수량을 관리 => 설정된 수량을 유지하려고 한다.
+
+
+
+# kubectl explain ReplicaSet
+# kubectl explain ReplicaSet.spec
+# kubectl apply -f ex3.yaml
+# kubectl get ReplicaSet
+# kubectl describe ReplicaSet nginx-replicaset
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  # 몇 개의 pod를 실행할 것인지의 pod 수량을 지정
+  replicas: 3
+  # pod의 label 에 대한 selector
+  selector:
+    matchLabels:
+      app: nginx
+  # ReplicaSet에 의해서 만들어지는 객체의 spec을 정의함
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.24

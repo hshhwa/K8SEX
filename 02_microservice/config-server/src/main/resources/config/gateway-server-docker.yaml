@@ -1,0 +1,31 @@
+logging:
+  file:
+    name: logs/gateway.log
+    max-size: 500MB
+    max-history: 10
+  level:
+    root: info
+    org.msa.gatewayserver: debug
+
+# gateway 의 proxy 설정
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: factorial-cache-app
+          uri: lb://factorial-cache-app
+          predicates:
+            - Path=/factorial/**
+        - id: item-service
+          uri: lb://item-service
+          predicates:
+            - Path=/v1/item/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka

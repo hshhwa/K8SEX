@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server
+  namespace: kuku
+  labels:
+    app: eureka-server
+spec:
+  replicas: 1  # 필요한 경우 복제본을 늘릴 수 있습니다.
+  selector:
+    matchLabels:
+      app: eureka-server
+  template:
+    metadata:
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+        - name: eureka-server
+          image: hongseonghwa/kuku-eureka-server:0.0.3  # 빌드한 Docker 이미지
+          ports:
+            - containerPort: 8761  # Eureka 서버가 사용하는 포트
+          env:
+            - name: JAVA_OPTS  # 필요에 따라 JVM 옵션 설정 가능
+              value: "-Xms512m -Xmx1024m"
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8761
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8761
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      restartPolicy: Always

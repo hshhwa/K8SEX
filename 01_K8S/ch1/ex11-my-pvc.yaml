@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc-10
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: host-pv
+  resources:
+    requests:
+      storage: 10Mi
+
+
+# kubectl apply -f ex11-my-pvc.yaml
+
+# kubectl get pv
+# 현재 생성된 pv는 2개중에서 하나에 Bound가 되면
+# PVC요청이 수립된 상태가 된다. claim 항목에 my-pvc가 조회되면 된다.
+# access mode의 항목에 RWX로 설정된 것을 확인
+# reclaim ploicy의 항목이 delete로 설정된 것을 확인.

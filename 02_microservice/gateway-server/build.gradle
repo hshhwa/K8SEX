@@ -24,9 +24,10 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-	// 3-1 Eureka 와 Config 연동
+	// 3-3 SpringCloud Gateway 연동
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
@@ -51,11 +52,10 @@ jib {
 		image = "openjdk:17"
 	}
 	to {
-		image = "hongseonghwa/kuku-eureka-server"
-		tags = ['latest', '0.0.3']
+		image = "hongseonghwa/kuku-gateway-server"
+		tags = ['latest', '0.0.2']
 	}
 	container{
 		creationTime = "USE_CURRENT_TIMESTAMP"
 	}
 }
-

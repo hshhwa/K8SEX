@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-server
+  namespace: kuku
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-server
+  template:
+    metadata:
+      labels:
+        app: gateway-server
+    spec:
+      containers:
+        - name: gateway-server
+          image: hongseonghwa/kuku-gateway-server:0.0.2
+          ports:
+            - containerPort: 8070
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  # name : 외부에서 이 서비스를 호출하는 기준이 된다.
+  name: my-service
+spec:
+  # ClusterIP 는 default. 생략이 가능하다.
+  # 하지만 명시적으로 작성하는것이 좋다.
+  type: ClusterIP
+  # selector 는 이 서비스의 대상이 되는 Pod들을 지정한다.
+  # 그리고, my-service 호출로 실제로 호출되는 Pod들은
+  # endpointslices 객체가 가지고 있다.
+  selector:
+    # ex2-1-my-nginx-deploy.yaml 에서 작성한
+    # Deployment의 Pod들이 대상이 된다.
+    # Deployment의 selector와 동일한 selector를 지정해야 한다.
+    app: my-nginx
+  ports:
+    # nginx container의 내부 80port가 my-service 의 9080 port로 매핑된다.
+    - protocol: TCP
+      # Service는 9080 port를 호출되도록 지정한다.
+      port: 9080
+      # Deployment의 Pod들은 nginx임으로 80port를 지정한다.
+      targetPort: 80
+
+# kubectl apply -f ex2-2-my-service.yaml
+# kubectl get service
+
+# ENDPOINTS 항목에 표시된 IP 목록을 확인 -> 3개를 확인
+# kubectl get endpointslices
+# kubectl get pods
+# kubectl describe pod my-nginx-deploy-8474f7bd66-bxmvr -> 10.244.0.9
+
+# pod 간의 컨테이너 호출
+# my-localhost-pod( ngnix ) -> my-service-9080 -> my-nginx-deploy( nginx )
+# kubectl exec my-localhost-pod -c nginx-container -- curl my-service:9080

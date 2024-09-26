@@ -1,0 +1,25 @@
+# K8S 와 spring boot 로 웹 서비스를 하는 경우의 통신 흐름
+# client 의 Request(요청) -> Ingress -> ClusterIP -> pod(java.jar)
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-nginx-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-nginx
+  template:
+    metadata:
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+
+# kubectl apply -f ex2-1-my-nginx-deploy.yaml
+
+# kubectl exec my-localhost-pod -c nginx-container -- curl my-service:9080
